@@ -10,16 +10,16 @@ Usage is shown in main.py
 ---
 Arguments for extract:
 
-url: url of the article/paper
+        - > url: url of the article/paper
 
-content: The content to be extracted, like 'abstract', 'references', 'links', 'introduction' (SHOULD BE LOWERCASE AND STRIPPED)
+        - > content: The content to be extracted, like 'abstract', 'references', 'links', 'introduction' (SHOULD BE LOWERCASE AND STRIPPED)
 
 
 Future work:
 
-    implement proxy rotation
+        - > implement proxy rotation
     
-    implement recursive search by scraping citation links
+        - > implement recursive search by scraping citation links
     
-    support for pdf
+        - > support for pdf
 
