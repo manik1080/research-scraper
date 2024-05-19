@@ -1,35 +1,18 @@
 import requests
 from bs4 import BeautifulSoup
 from serpapi import search as GoogleSearch
-from get_valid import check_proxies
 
 
 class Scraper:
     def __init__(self):
-        self.proxies = None
-        
-    
-    def get_proxy_list(self):
-        check_proxies()
-        with open('valid-proxies.txt', 'r') as f:
-            self.proxies = f.read().split('\n')
-        return proxies
+        pass
     
     def get_content(self, url: str):
-        self.proxies = self.get_proxy_list()
-        try:
-            response = requests.get(url, proxies={"http": proxies[counter],
-                                              "https": proxies[counter]})
-        except:
-            print(response.status_code, " Failed")
-        finally:
-            counter = counter%len(proxies) + 1
         response = requests.get(url)
         
         webpage_content = response.content
         soup = BeautifulSoup(webpage_content, 'html.parser')
         return soup
-    
 
     def extract(self, url: str, content=['title', 'abstract', 'references', 'links'], backup_title='NOT FOUND') -> dict:
         similar = {'results': ['results', 'result', 'conclusion', 'conclusions'],
@@ -89,6 +72,9 @@ class Scraper:
         return data
 
 
+###########################################################
+####### queryScraper does not always produce output #######
+###########################################################
 class queryScraper:
     def __init__(self, api_key):
         self.scraper = Scraper()
