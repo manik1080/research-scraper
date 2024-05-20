@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 from serpapi import search as GoogleSearch
+import spacy
+nlp = spacy.load("en_core_web_sm")
 
 
 class Scraper:
@@ -13,6 +15,27 @@ class Scraper:
         webpage_content = response.content
         soup = BeautifulSoup(webpage_content, 'html.parser')
         return soup
+
+    def get_complete_content(self, url):
+        def tag_visible(element):
+            if element.parent.name in ['style', 'script', 'head', 'title', 'meta', '[document]']:
+                return False
+            if isinstance(element, Comment):
+                return False
+            return True
+
+        def get_text(body):
+            soup = BeautifulSoup(body, 'html.parser')
+            texts = soup.findAll(string=True)
+            visible_texts = filter(tag_visible, texts)
+            return u" ".join(t.strip() for t in visible_texts)
+
+        def text_from_html(url):
+            req = urllib.request.Request(url=url,
+                                         headers={'User-Agent': 'Mozilla/5.0'})
+            html = urllib.request.urlopen(req).read()
+            return get_text(html)
+        return text_from_html(url)
 
     def extract(self, url: str, content=['title', 'abstract', 'references', 'links'], backup_title='NOT FOUND') -> dict:
         similar = {'results': ['results', 'result', 'conclusion', 'conclusions'],
