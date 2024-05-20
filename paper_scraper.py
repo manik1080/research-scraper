@@ -1,8 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 from serpapi import search as GoogleSearch
-import spacy
-nlp = spacy.load("en_core_web_sm")
 
 
 class Scraper:
