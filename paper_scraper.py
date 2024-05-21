@@ -4,6 +4,7 @@ from serpapi import search as GoogleSearch
 import random
 import urllib
 import bs4
+import re
 
 
 class Scraper:
@@ -92,7 +93,7 @@ class Scraper:
                 for heading in headings:
                     head = heading.text.lower().strip()
                     if head==key:
-                        abstract = heading.findNext('p').text.strip()
+                        abstract = re.sub(r'\s+', ' ', heading.findNext('p').text).strip()
                         break
                 if len(abstract)<30:
                     abstract = 'NOT_FOUND'
