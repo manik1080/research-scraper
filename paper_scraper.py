@@ -1,6 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 from serpapi import search as GoogleSearch
+import random
+import urllib
+import bs4
 
 
 class Scraper:
