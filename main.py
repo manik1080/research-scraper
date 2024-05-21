@@ -1,8 +1,4 @@
 from paper_scraper import Scraper
-
-
-if __name__ == '__main__':
-    from paper_scraper import Scraper
 import pandas as pd
 import os
 
