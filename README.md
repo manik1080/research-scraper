@@ -1,7 +1,7 @@
 # research-scraper
 This script scrapes contents of research papers and returns a python dictionary. Currently supports PubMed and Nature.
 
-Usage is shown in demo.py
+# Usage is shown in demo.py
 
 - > Clone repository or copy code from paper_scraper.py
 
@@ -17,9 +17,5 @@ Arguments for extract:
 
 Future work:
 
-        - > implement proxy rotation
-    
-        - > implement recursive search by scraping citation links
-    
-        - > support for pdf
+        - > implement keyword extraction
 
