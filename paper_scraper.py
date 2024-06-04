@@ -95,11 +95,14 @@ class Scraper:
 
             elif key=='abstract':
                 abstract = 'NOT_FOUND'
-                for heading in headings:
-                    head = heading.text.lower().strip()
-                    if head==key:
-                        abstract = re.sub(r'\s+', ' ', heading.findNext('p').text).strip()
-                        break
+                if 'pubmed' in url:
+                    abstract = re.sub(r'\s+', ' ', ' '.join([i.text for i in soup.find(id='eng-abstract').find_all('p')]))
+                else:
+                    for heading in headings:
+                        head = heading.text.lower().strip()
+                        if head==key:
+                            abstract = re.sub(r'\s+', ' ', heading.findNext('p').text).strip()
+                            break
                 if len(abstract)<30:
                     abstract = 'NOT_FOUND'
                 data['abstract'] = abstract
