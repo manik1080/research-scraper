@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-from serpapi import search as GoogleSearch
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import random
 import urllib
@@ -251,19 +250,21 @@ class ThreadedExtractor:
 ####### queryScraper does not always produce output #######
 ###########################################################
 class queryScraper:
-    def __init__(self, api_key):
+    def __init__(self):
         self.scraper = Scraper()
-        self.api_key = api_key
 
-    def get_url(self, query):
-        params = {
-            "engine": "google",
-            "q": f"{query} research paper",
-            "api_key": self.api_key
-        }
-        search = GoogleSearch(params)
-        result = (search.as_dict()['organic_results'][0]['title'], search.as_dict()['organic_results'][0]['link'])
-        return result
+    def get_links(self, query):
+        search_url = f"https://www.google.com/search?q={'+'.join(query.split())}+research"
+        response = requests.get(search_url, headers=self.scraper.get_header())
+        soup = BeautifulSoup(response.content, "html.parser")
+
+        results = []
+        for link in soup.find_all('a'):
+            href = link.get('href')
+            if 'url?q=' in href and 'webcache' not in href and len(link.text)>15:
+                url = href.split('url?q=')[1].split('&sa=U')[0]
+                results.append((link.text.rstrip(' › ...'), url))
+        return results[0]
 
     def extract(self, query: str, content=['title', 'abstract', 'references', 'links'], recur=False) -> dict:
         title, url = self.get_url(query)
