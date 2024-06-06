@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import random
+import numpy as np
 import urllib
 import copy
 import bs4
