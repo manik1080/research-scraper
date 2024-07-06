@@ -262,13 +262,15 @@ class queryScraper:
         results = []
         for link in soup.find_all('a'):
             href = link.get('href')
-            if 'url?q=' in href and 'webcache' not in href and len(link.text)>15:
-                url = href.split('url?q=')[1].split('&sa=U')[0]
-                results.append((link.text.rstrip(' › ...'), url))
+            if href:
+                if 'url?q=' in href and 'webcache' not in href and len(link.text)>15:
+                    url = href.split('url?q=')[1].split('&sa=U')[0]
+                    results.append((link.text.rstrip(' › ...'), url))
+        #results = [i for i in results if i is not None]
         return results[0]
 
     def extract(self, query: str, content=['title', 'abstract', 'references', 'links'], recur=False) -> dict:
-        title, url = self.get_url(query)
+        title, url = self.get_links(query)
         try:
             data = self.scraper.extract(url, content, backup_title=title)
         except:
@@ -278,12 +280,15 @@ class queryScraper:
 
 
 if __name__ == '__main__':
-    t = ThreadedExtractor(6, "https://pubmed.ncbi.nlm.nih.gov/38186573", content=['title', 'abstract', 'links'])
-    t.extract(50, 'csv')
-    #s = Scraper()
-    #d = s.extract("https://pubmed.ncbi.nlm.nih.gov/38186573")
+    #t = ThreadedExtractor(6, "https://pubmed.ncbi.nlm.nih.gov/38186573", content=['title', 'abstract', 'links'])
+    #t.extract(50, 'csv')
+    s = Scraper()
+    d = s.extract("https://pubmed.ncbi.nlm.nih.gov/38186573")
+    #s = queryScraper()
+    #d = s.extract('Asia women breast cancer under 40 pubmed')
     #print(d.keys())
     #for i in d['links']:
      #   print(d['links'][i])
-    #for i in d:
-     #   print(d[i], end='\n\n')
+    for i in d:
+        print(d[i], end='\n\n')
+     
